@@ -1,8 +1,12 @@
+# Podstawowe zależności
 streamlit==1.32.2
 psycopg2-binary==2.9.9
 pandas==2.1.4
 python-dotenv==1.0.0
+
+# Dodatkowe zależności (wymagane przez funkcjonalności aplikacji)
 numpy==1.26.3
 yfinance==0.2.36
 scikit-learn==1.4.0
 vaderSentiment==3.3.2
+ta==0.11.0  # alternatywa dla TA-Lib
