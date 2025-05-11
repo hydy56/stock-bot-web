@@ -13,17 +13,18 @@ load_dotenv()
 def get_db_connection():
     try:
         conn = psycopg2.connect(
-            host=os.getenv('DB_HOST'),
-            port=os.getenv('DB_PORT'),
-            dbname=os.getenv('DB_NAME'),
+            host=os.getenv('DB_HOST'),  # Use full endpoint from Neon
+            database=os.getenv('DB_NAME'),
             user=os.getenv('DB_USER'),
             password=os.getenv('DB_PASSWORD'),
-            sslmode='require'
+            port=os.getenv('DB_PORT'),
+            sslmode=os.getenv('SSL_MODE'),
+            connect_timeout=5
         )
-        print("Połączenie z bazą danych udane!")
         return conn
     except OperationalError as e:
-        print(f"Błąd połączenia z bazą danych: {e}")
+        st.error(f"❌ Database connection failed: {e}")
+        st.stop()  # Halt the app if connection fails
         return None
 
 def get_recent_timestamps(limit=10):
