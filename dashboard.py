@@ -76,20 +76,29 @@ def format_timestamp_display(timestamp):
     return timestamp.strftime("%Y-%m-%d %H:%M:%S")
 
 def main():
-    st.write("🔌 Sprawdzanie połączenia z Neon.tech...")
+    st.set_page_config(
+        page_title="Stock Recommendations", 
+        layout="wide",
+        page_icon="📈",
+        initial_sidebar_state="expanded"
+    )
+    
+    # Dopiero teraz reszta kodu
+    st.title("Stock Recommendations Dashboard")
+    
+    # Test połączenia z bazą
+    st.write("🔌 Testing database connection...")
     try:
         test_conn = get_db_connection()
-        with test_conn.cursor() as cur:
-            cur.execute("SELECT 1")
-            st.success("✅ Połączenie z Neon.tech działa poprawnie")
-        test_conn.close()
+        if test_conn:
+            st.success("✅ Database connection successful!")
+            test_conn.close()
+        else:
+            st.stop()
     except Exception as e:
-        st.error(f"❌ Krytyczny błąd połączenia: {str(e)}")
+        st.error(f"❌ Connection test failed: {e}")
         st.stop()
         
-    st.set_page_config(page_title="Stock Recommendations", layout="wide")
-    st.title("Stock Recommendations Dashboard")
-
     # Pobierz 10 najnowszych timestampów
     timestamps = get_recent_timestamps(10)
     
