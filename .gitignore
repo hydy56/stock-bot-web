@@ -1,4 +1,3 @@
 # Pliki środowiskowe
-.env
-.env.*
-!.env.example
+.streamlit/secrets.toml
+*.env
