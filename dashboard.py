@@ -13,17 +13,24 @@ load_dotenv()
 def get_db_connection():
     try:
         conn = psycopg2.connect(
-            host=st.secrets.neon.host,
-            database=st.secrets.neon.database,
-            user=st.secrets.neon.user,
-            password=st.secrets.neon.password,
-            port=st.secrets.neon.port,
-            sslmode=st.secrets.neon.sslmode,
+            host=st.secrets.neon.host if 'neon' in st.secrets else os.getenv('DB_HOST'),
+            database=st.secrets.neon.database if 'neon' in st.secrets else os.getenv('DB_NAME'),
+            user=st.secrets.neon.user if 'neon' in st.secrets else os.getenv('DB_USER'),
+            password=st.secrets.neon.password if 'neon' in st.secrets else os.getenv('DB_PASSWORD'),
+            port=st.secrets.neon.port if 'neon' in st.secrets else os.getenv('DB_PORT', '5432'),
+            sslmode='require',  # Wymagane dla Neon.tech
             connect_timeout=3
         )
         return conn
     except Exception as e:
-        st.error(f"🔴 Database connection failed: {e}")
+        st.error(f"""
+        🔴 **Błąd połączenia z bazą danych**  
+        Upewnij się że:  
+        - Dane dostępowe są poprawne  
+        - Neon.tech ma whitelistowane Twoje IP  
+        - Połączenie używa SSL  
+        Błąd: {str(e)}
+        """)
         st.stop()
 
 def get_recent_timestamps(limit=10):
@@ -69,6 +76,17 @@ def format_timestamp_display(timestamp):
     return timestamp.strftime("%Y-%m-%d %H:%M:%S")
 
 def main():
+    st.write("🔌 Sprawdzanie połączenia z Neon.tech...")
+    try:
+        test_conn = get_db_connection()
+        with test_conn.cursor() as cur:
+            cur.execute("SELECT 1")
+            st.success("✅ Połączenie z Neon.tech działa poprawnie")
+        test_conn.close()
+    except Exception as e:
+        st.error(f"❌ Krytyczny błąd połączenia: {str(e)}")
+        st.stop()
+        
     st.set_page_config(page_title="Stock Recommendations", layout="wide")
     st.title("Stock Recommendations Dashboard")
 
