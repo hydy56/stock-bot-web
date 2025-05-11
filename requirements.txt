@@ -6,4 +6,4 @@ numpy==1.26.3
 yfinance==0.2.36
 scikit-learn==1.4.0
 vaderSentiment==3.3.2
-talib-binary==0.4.28
+ta==0.11.0
