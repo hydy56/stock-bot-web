@@ -5,18 +5,26 @@ import pandas as pd
 from datetime import datetime
 from dotenv import load_dotenv
 import os
+from psycopg2 import OperationalError
 
 # Ładowanie zmiennych środowiskowych
 load_dotenv()
 
 def get_db_connection():
-    return psycopg2.connect(
-        host=os.getenv('DB_HOST'),
-        port=os.getenv('DB_PORT', '5432'),
-        database=os.getenv('DB_NAME'),
-        user=os.getenv('DB_USER'),
-        password=os.getenv('DB_PASSWORD')
-    )
+    try:
+        conn = psycopg2.connect(
+            host=os.getenv('DB_HOST'),
+            port=os.getenv('DB_PORT'),
+            dbname=os.getenv('DB_NAME'),
+            user=os.getenv('DB_USER'),
+            password=os.getenv('DB_PASSWORD'),
+            sslmode='require'
+        )
+        print("Połączenie z bazą danych udane!")
+        return conn
+    except OperationalError as e:
+        print(f"Błąd połączenia z bazą danych: {e}")
+        return None
 
 def get_recent_timestamps(limit=10):
     conn = get_db_connection()
