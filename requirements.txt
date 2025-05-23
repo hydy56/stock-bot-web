@@ -1,12 +1,24 @@
-# Podstawowe zależności
+# Główne zależności
 streamlit==1.32.2
 psycopg2-binary==2.9.9
 pandas==2.1.4
 python-dotenv==1.0.0
 
-# Dodatkowe zależności (wymagane przez funkcjonalności aplikacji)
+# Przetwarzanie danych
 numpy==1.26.3
-yfinance==0.2.36
 scikit-learn==1.4.0
+
+# Dane finansowe i analiza
+yfinance==0.2.36
+ta==0.11.0          # wskaźniki analizy technicznej
+
+# Analiza nastrojów
 vaderSentiment==3.3.2
-ta==0.11.0  # alternatywa dla TA-Lib
+
+# Styl konsoli (opcjonalnie, np. do debugowania)
+rich==14.0.0
+
+# Parser Markdown (opcjonalnie, niekonieczne dla działania)
+markdown-it-py==3.0.0
+mdurl==0.1.2
+pygments==2.19.1
