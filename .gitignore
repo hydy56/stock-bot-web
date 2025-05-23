@@ -1,3 +1,2 @@
 # Pliki środowiskowe
 .streamlit/secrets.toml
-*.env
