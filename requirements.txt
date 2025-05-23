@@ -8,17 +8,12 @@ python-dotenv==1.0.0
 numpy==1.26.3
 scikit-learn==1.4.0
 
-# Dane finansowe i analiza
+# Dane finansowe
 yfinance==0.2.36
-ta==0.11.0          # wskaźniki analizy technicznej
+ta==0.11.0
 
-# Analiza nastrojów
+# Analiza sentymentu
 vaderSentiment==3.3.2
 
-# Styl konsoli (opcjonalnie, np. do debugowania)
-rich==14.0.0
-
-# Parser Markdown (opcjonalnie, niekonieczne dla działania)
-markdown-it-py==3.0.0
-mdurl==0.1.2
-pygments==2.19.1
+# Tylko zgodna wersja rich (wymagana przez streamlit)
+rich==13.7.1
